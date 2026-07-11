@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard — SecureBank{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-dark" style="background-color:#1a3c5e;">
+  <div class="container">
+    <!-- Brand -->
+    <a class="navbar-brand" href="{{ url_for('dashboard.dashboard_page') }}">
+      &#127968; SecureBank
+    </a>
+
+    <!-- Customer name + logout -->
+    <div class="d-flex align-items-center gap-3">
+      <span class="text-white-50" style="font-size:0.9rem;">
+        Welcome, <strong class="text-white">{{ full_name }}</strong>
+      </span>
+
+      <!-- Logout uses POST to prevent browser prefetch from clearing the session -->
+      <form method="POST" action="{{ url_for('auth.logout') }}" class="m-0">
+        <button type="submit" class="btn btn-outline-light btn-sm">
+          Logout
+        </button>
+      </form>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+
+      <!-- ── Balance card ───────────────────────────────────── -->
+      <div class="card border-0 rounded-3 shadow-sm mb-4">
+        <div class="card-body p-4">
+          <div class="row align-items-center">
+            <div class="col">
+              <div class="balance-label mb-1">Available Balance</div>
+              <div class="balance-display">
+                {% if balance == "N/A" %}
+                  N/A
+                {% else %}
+                  ${{ "%.2f"|format(balance) }}
+                {% endif %}
+              </div>
+              <div class="text-muted mt-1" style="font-size:0.82rem;">
+                Account holder: {{ full_name }}
+              </div>
+            </div>
+            <div class="col-auto">
+              <!-- Action buttons -->
+              <div class="d-flex flex-column flex-sm-row gap-2">
+                <a href="{{ url_for('transactions.deposit_page') }}"
+                   class="btn btn-primary action-btn">
+                  Deposit Funds
+                </a>
+                <a href="{{ url_for('transactions.withdraw_page') }}"
+                   class="btn btn-secondary action-btn">
+                  Withdraw Funds
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Recent transactions ────────────────────────────── -->
+      <div class="card border-0 rounded-3 shadow-sm">
+        <div class="card-header bg-white border-bottom py-3">
+          <h6 class="mb-0 fw-semibold" style="color:#1a3c5e;">Recent Transactions</h6>
+        </div>
+        <div class="card-body p-0">
+
+          {% if transactions %}
+            <div class="table-responsive">
+              <table class="table table-hover mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th class="px-4 py-3">Type</th>
+                    <th class="py-3">Amount</th>
+                    <th class="py-3">Balance After</th>
+                    <th class="py-3">Date &amp; Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for txn in transactions %}
+                  <tr>
+                    <td class="px-4 py-3">
+                      {% if txn['type'] == 'deposit' %}
+                        <span class="badge bg-success">Deposit</span>
+                      {% else %}
+                        <span class="badge bg-warning text-dark">Withdrawal</span>
+                      {% endif %}
+                    </td>
+                    <td class="py-3">
+                      {% if txn['type'] == 'deposit' %}
+                        <span class="text-success fw-semibold">
+                          +${{ "%.2f"|format(txn['amount']) }}
+                        </span>
+                      {% else %}
+                        <span class="text-danger fw-semibold">
+                          -${{ "%.2f"|format(txn['amount']) }}
+                        </span>
+                      {% endif %}
+                    </td>
+                    <td class="py-3">${{ "%.2f"|format(txn['balance_after']) }}</td>
+                    <td class="py-3 text-muted" style="font-size:0.85rem;">
+                      {{ txn['created_at'] }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <div class="text-center text-muted py-4" style="font-size:0.9rem;">
+              No transactions yet. Make your first deposit!
+            </div>
+          {% endif %}
+
+        </div>
+      </div>
+      <!-- /recent transactions -->
+
+    </div>
+  </div>
+</div>
+{% endblock %}
