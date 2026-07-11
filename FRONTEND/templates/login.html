@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Login — SecureBank{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12">
+
+        <div class="card auth-card mx-auto">
+
+          <!-- Card header -->
+          <div class="card-header text-center">
+            <span style="font-size:1.4rem;">&#127968;</span>&nbsp; SecureBank
+            <div class="mt-1" style="font-size:0.85rem; font-weight:400; opacity:0.85;">
+              Customer Login
+            </div>
+          </div>
+
+          <!-- Card body -->
+          <div class="card-body p-4">
+
+            <!-- Inline error alert — only rendered when the backend passes an error -->
+            {% if error %}
+              <div class="alert alert-danger py-2" role="alert">
+                {{ error }}
+              </div>
+            {% endif %}
+
+            <!-- Login form — POST to /login -->
+            <form method="POST" action="{{ url_for('auth.login_submit') }}" novalidate>
+
+              <!-- Username -->
+              <div class="mb-3">
+                <label for="username" class="form-label fw-semibold">Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  name="username"
+                  placeholder="Enter your username"
+                  autocomplete="username"
+                  required
+                />
+              </div>
+
+              <!-- Password -->
+              <div class="mb-4">
+                <label for="password" class="form-label fw-semibold">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  autocomplete="current-password"
+                  required
+                />
+              </div>
+
+              <!-- Submit -->
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">
+                  Log In
+                </button>
+              </div>
+
+            </form>
+          </div><!-- /card-body -->
+
+          <div class="card-footer text-center text-muted py-2" style="font-size:0.8rem;">
+            Trouble logging in? Contact your branch.
+          </div>
+
+        </div><!-- /auth-card -->
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
