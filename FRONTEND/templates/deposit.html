@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Deposit Funds — SecureBank{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-dark" style="background-color:#1a3c5e;">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('dashboard.dashboard_page') }}">
+      &#127968; SecureBank
+    </a>
+    <form method="POST" action="{{ url_for('auth.logout') }}" class="m-0">
+      <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+    </form>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="transaction-card card">
+
+    <!-- Card header -->
+    <div class="card-header py-3 text-center">
+      Deposit Funds
+    </div>
+
+    <!-- Card body -->
+    <div class="card-body p-4">
+
+      <!-- Inline error — only rendered when the backend passes an error -->
+      {% if error %}
+        <div class="alert alert-danger py-2" role="alert">
+          {{ error }}
+        </div>
+      {% endif %}
+
+      <!-- Deposit form — POST to /deposit -->
+      <form method="POST" action="{{ url_for('transactions.deposit_submit') }}" novalidate>
+
+        <div class="mb-4">
+          <label for="amount" class="form-label fw-semibold">Amount to Deposit ($)</label>
+          <div class="input-group">
+            <span class="input-group-text">$</span>
+            <input
+              type="number"
+              class="form-control form-control-lg"
+              id="amount"
+              name="amount"
+              placeholder="0.00"
+              min="0.01"
+              step="0.01"
+              required
+            />
+          </div>
+          <div class="form-text text-muted">
+            Enter a positive amount. Maximum: $1,000,000.00 per transaction.
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="d-flex gap-3">
+          <button type="submit" class="btn btn-primary action-btn">
+            Deposit
+          </button>
+          <a href="{{ url_for('dashboard.dashboard_page') }}"
+             class="btn btn-outline-secondary action-btn">
+            Cancel
+          </a>
+        </div>
+
+      </form>
+    </div><!-- /card-body -->
+  </div><!-- /transaction-card -->
+</div>
+{% endblock %}
