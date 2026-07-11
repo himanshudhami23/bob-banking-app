@@ -1,0 +1,94 @@
+/* ============================================================
+   BankingApp — Custom CSS overrides on top of Bootstrap
+   ============================================================ */
+
+body {
+    background-color: #f0f4f8;
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+}
+
+/* ── Navbar ───────────────────────────────────────────────── */
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* ── Auth card (login) ────────────────────────────────────── */
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.auth-card .card-header {
+    background-color: #1a3c5e;
+    color: #ffffff;
+    border-radius: 12px 12px 0 0;
+    padding: 1.25rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* ── Balance display ──────────────────────────────────────── */
+.balance-display {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #1a3c5e;
+    letter-spacing: -0.5px;
+}
+
+.balance-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #6c757d;
+}
+
+/* ── Dashboard action buttons ─────────────────────────────── */
+.action-btn {
+    min-width: 160px;
+    padding: 0.65rem 1.5rem;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+/* ── Transaction card ─────────────────────────────────────── */
+.transaction-card {
+    max-width: 480px;
+    margin: 0 auto;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+}
+
+.transaction-card .card-header {
+    background-color: #1a3c5e;
+    color: #ffffff;
+    border-radius: 12px 12px 0 0;
+    font-weight: 600;
+}
+
+/* ── Flash alerts ─────────────────────────────────────────── */
+.flash-container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* ── Footer ───────────────────────────────────────────────── */
+.site-footer {
+    font-size: 0.78rem;
+    color: #adb5bd;
+    border-top: 1px solid #dee2e6;
+    padding: 1rem 0;
+    text-align: center;
+    margin-top: 3rem;
+}
