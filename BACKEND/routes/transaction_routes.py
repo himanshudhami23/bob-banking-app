@@ -15,7 +15,7 @@ Business logic is fully delegated to account_service.
 
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from utils import login_required
-from services.account_service import deposit as do_deposit, withdraw as do_withdraw
+from services.account_service import deposit as do_deposit, withdraw as do_withdraw, fetch_balance
 
 transactions_bp = Blueprint("transactions", __name__)
 
@@ -73,6 +73,23 @@ def withdraw_submit():
     """
     customer_id = session["customer_id"]
     raw_amount  = request.form.get("amount", "")
+
+    # Validation check 1: amount field must not be empty
+    if not raw_amount or not raw_amount.strip():
+        return render_template("withdraw.html", error="Amount is required"), 200
+
+    # Validation check 2: amount must be a positive number
+    try:
+        amount_value = float(raw_amount.strip())
+    except (TypeError, ValueError):
+        amount_value = None
+    if amount_value is None or amount_value <= 0:
+        return render_template("withdraw.html", error="Amount must be greater than zero"), 200
+
+    # Validation check 3: amount must not exceed the current balance
+    balance_result = fetch_balance(customer_id)
+    if balance_result["success"] and amount_value > balance_result["balance"]:
+        return render_template("withdraw.html", error="Insufficient funds"), 200
 
     result = do_withdraw(customer_id, raw_amount)
 
